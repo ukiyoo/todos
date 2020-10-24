@@ -10,19 +10,14 @@ export default function AddTodo({addTodo}) {
         addTodo(value);
         setValue("");
     }
-
+    
     return (
         <Form onSubmit={submitHandler}>
-            <Form.Group>
-                <Form.Input
-                    placeholder='title'
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                />
-                <Form.Button
-                    content='Add'
-                />
-            </Form.Group>
+            <Form.Input
+                placeholder='Todo'
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+            />
         </Form>
     )
 }

@@ -1,18 +1,18 @@
 import React from 'react';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo'
-import { Container, Header } from 'semantic-ui-react'
+import { Grid, Header, Segment } from 'semantic-ui-react'
 
 function App() {
   const [todos, setTodos] = React.useState([
-    {title: "Create function", complete: false},
-    {title: "Refactor code", complete: false},
-    {title: "Git push", complete: false},
+    {title: "Lorem ipsum dolor sit amet", complete: false},
+    {title: "Consectetur adipiscing elit", complete: false},
+    {title: "Labore et dolore magna aliqua", complete: false},
   ]);
 
   function completeTodo(index) {
     const newTodos = [...todos];
-    newTodos[index].complete = true;
+    newTodos[index].complete = !newTodos[index].complete;
     setTodos(newTodos);
   }
 
@@ -28,17 +28,21 @@ function App() {
   }
 
   return (
-    <Container>
-      <Header as='h1' textAlign='center'>
-        <Header.Content>TO-DO LIST</Header.Content>
-      </Header>
-        <TodoList 
-          todos={todos}  
-          removeTodo={removeTodo}
-          completeTodo={completeTodo}
-        />
-      <AddTodo addTodo={addTodo}/>
-    </Container>
+    <Grid centered columns={4}>
+      <Grid.Column>
+        <Segment inverted color=''>
+        <Header as='H1' textAlign='center'>
+          <Header.Content>TODOs</Header.Content>
+        </Header>
+          <TodoList 
+            todos={todos}  
+            removeTodo={removeTodo}
+            completeTodo={completeTodo}
+          />
+          <AddTodo addTodo={addTodo}/>
+        </Segment>
+      </Grid.Column>
+    </Grid>
   );
 }
 
