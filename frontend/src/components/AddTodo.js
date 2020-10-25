@@ -1,5 +1,7 @@
-import React from 'react'
-import { Form } from 'semantic-ui-react'
+import React from 'react';
+import { Form } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+
 
 export default function AddTodo({addTodo}) {
     const [value, setValue] = React.useState('')
@@ -21,3 +23,7 @@ export default function AddTodo({addTodo}) {
         </Form>
     )
 }
+
+AddTodo.propTypes = {
+    addTodo: PropTypes.func.isRequired,
+};

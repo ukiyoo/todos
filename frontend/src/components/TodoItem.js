@@ -1,8 +1,8 @@
 import React from 'react';
 import {List, Button, Icon } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
-
-export default function TodoItem({todo, index, removeTodo, completeTodo}) {
+function TodoItem({todo, index, removeTodo, completeTodo}) {
     return (
     <List.Item>
         <List.Content floated='right'>
@@ -15,3 +15,16 @@ export default function TodoItem({todo, index, removeTodo, completeTodo}) {
     </List.Item>
     )
 }
+
+
+TodoItem.propTypes = {
+    todo: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        complete: PropTypes.bool.isRequired
+    }).isRequired,
+    index: PropTypes.number,
+    removeTodo: PropTypes.func.isRequired,
+    completeTodo: PropTypes.func.isRequired,
+};
+
+export default TodoItem

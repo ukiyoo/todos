@@ -1,13 +1,16 @@
 import React from 'react';
-import { List } from 'semantic-ui-react'
-import TodoItem from './TodoItem'
+import { List } from 'semantic-ui-react';
+import TodoItem from './TodoItem';
+import PropTypes from 'prop-types';
 
-export default function TodoList({todos, removeTodo, completeTodo}) {
+
+function TodoList({todos, removeTodo, completeTodo}) {
     return (
         <List divided relaxed size={'large'} animated verticalAlign='middle'>
             {todos.map((todo, index) =>
                 <TodoItem 
-                    todo={todo} 
+                    todo={todo}
+                    key={index}
                     index={index}
                     removeTodo={removeTodo}
                     completeTodo={completeTodo}
@@ -16,3 +19,15 @@ export default function TodoList({todos, removeTodo, completeTodo}) {
         </List>
     );
 }
+
+TodoList.propTypes = {
+    todos: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        complete: PropTypes.bool.isRequired
+    })).isRequired,
+    removeTodo: PropTypes.func.isRequired,
+    completeTodo: PropTypes.func.isRequired,
+};
+
+
+export default TodoList

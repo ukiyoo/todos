@@ -10,6 +10,18 @@ function App() {
     {title: "Labore et dolore magna aliqua", complete: false},
   ]);
 
+  /*
+  React.useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
+        .then(response => response.json())
+        .then(todos => {
+          setTimeout(() => {
+            setTodos(todos)
+        }, 2000)
+      })
+  }, [])
+  */
+
   function completeTodo(index) {
     const newTodos = [...todos];
     newTodos[index].complete = !newTodos[index].complete;
@@ -28,10 +40,10 @@ function App() {
   }
 
   return (
-    <Grid centered columns={4}>
-      <Grid.Column>
-        <Segment inverted color=''>
-        <Header as='H1' textAlign='center'>
+    <Grid centered stackable columns={16}>
+      <Grid.Column computer={6}>
+        <Segment inverted>
+        <Header as='h1' textAlign='center'>
           <Header.Content>TODOs</Header.Content>
         </Header>
           <TodoList 
