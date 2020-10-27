@@ -22,8 +22,8 @@ function TodoList({todos, removeTodo, completeTodo}) {
 
 TodoList.propTypes = {
     todos: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        complete: PropTypes.bool.isRequired
+        title: PropTypes.string,
+        complete: PropTypes.bool
     })).isRequired,
     removeTodo: PropTypes.func.isRequired,
     completeTodo: PropTypes.func.isRequired,

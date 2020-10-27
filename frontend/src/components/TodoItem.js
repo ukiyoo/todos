@@ -6,10 +6,10 @@ function TodoItem({todo, index, removeTodo, completeTodo}) {
     return (
     <List.Item>
         <List.Content floated='right'>
-            <Button icon onClick={() => removeTodo(index)}><Icon name='delete' /></Button>
+            <Button icon onClick={() => removeTodo(todo, index)}><Icon name='delete' /></Button>
         </List.Content>
         {todo.complete ? <Icon color={'green'} name='check' /> : '' }
-        <List.Content onClick={() => completeTodo(index)}>
+        <List.Content onClick={() => completeTodo(todo, index)}>
             {todo.title}
         </List.Content>
     </List.Item>
@@ -19,10 +19,9 @@ function TodoItem({todo, index, removeTodo, completeTodo}) {
 
 TodoItem.propTypes = {
     todo: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        complete: PropTypes.bool.isRequired
+        title: PropTypes.string,
+        complete: PropTypes.bool
     }).isRequired,
-    index: PropTypes.number,
     removeTodo: PropTypes.func.isRequired,
     completeTodo: PropTypes.func.isRequired,
 };

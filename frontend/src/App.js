@@ -1,57 +1,102 @@
-import React from 'react';
-import TodoList from './components/TodoList';
-import AddTodo from './components/AddTodo'
-import { Grid, Header, Segment } from 'semantic-ui-react'
+import React, { useEffect } from "react";
+import axios from "axios";
+import TodoList from "./components/TodoList";
+import AddTodo from "./components/AddTodo";
+import {
+  Grid,
+  Header,
+  Segment,
+  Dimmer,
+  Loader,
+  Message,
+} from "semantic-ui-react";
 
 function App() {
-  const [todos, setTodos] = React.useState([
-    {title: "Lorem ipsum dolor sit amet", complete: false},
-    {title: "Consectetur adipiscing elit", complete: false},
-    {title: "Labore et dolore magna aliqua", complete: false},
-  ]);
+  const [todos, setTodos] = React.useState([]);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [err, setError] = React.useState(false);
+  const url = "http://localhost:8000/api/todos/";
 
-  /*
-  React.useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
-        .then(response => response.json())
-        .then(todos => {
-          setTimeout(() => {
-            setTodos(todos)
-        }, 2000)
+  function getTodos() {
+    axios
+      .get(url)
+      .then((todos) => {
+        setIsLoaded(true);
+        setTodos(todos.data);
+        console.log(todos);
       })
-  }, [])
-  */
-
-  function completeTodo(index) {
-    const newTodos = [...todos];
-    newTodos[index].complete = !newTodos[index].complete;
-    setTodos(newTodos);
+      .catch((error) => {
+        setIsLoaded(true);
+        setError(error);
+      });
   }
 
-  function removeTodo(index) {
+  useEffect(() => {
+    getTodos();
+  }, []);
+
+  function completeTodo(todo, index) {
+    const newTodos = [...todos];
+    newTodos[index].complete = !newTodos[index].complete;
+    /*In order not to pass the title field in the put method, 
+    you need to change the model fields in django*/
+    axios
+      .put(url + todo.id + "/", {
+        title: todo.title,
+        complete: newTodos[index].complete,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setTodos(newTodos);
+      })
+      .catch((error) => setError(error));
+  }
+
+  function removeTodo(todo, index) {
     const newTodos = [...todos];
     newTodos.splice(index, 1);
-    setTodos(newTodos);
+    axios
+      .delete(url + todo.id)
+      .then((response) => {
+        console.log(response.data);
+        setTodos(newTodos);
+      })
+      .catch((error) => setError(error));
   }
 
   function addTodo(title) {
     const newTodos = [...todos, { title }];
-    setTodos(newTodos);
+    axios
+      .post(url, { title: title })
+      .then((response) => {
+        console.log(response.data);
+        setTodos(newTodos);
+        getTodos();
+      })
+      .catch((error) => setError(error));
   }
 
   return (
     <Grid centered stackable columns={16}>
       <Grid.Column computer={6}>
         <Segment inverted>
-        <Header as='h1' textAlign='center'>
-          <Header.Content>TODOs</Header.Content>
-        </Header>
-          <TodoList 
-            todos={todos}  
-            removeTodo={removeTodo}
-            completeTodo={completeTodo}
-          />
-          <AddTodo addTodo={addTodo}/>
+          <Header as="h1" textAlign="center">
+            <Header.Content>TODOs</Header.Content>
+          </Header>
+          <Dimmer active={isLoaded ? false : true}>
+            <Loader>Loading</Loader>
+          </Dimmer>
+          {todos.length ? (
+            <TodoList
+              todos={todos}
+              removeTodo={removeTodo}
+              completeTodo={completeTodo}
+            />
+          ) : (
+            <p>There's nothing</p>
+          )}
+          <AddTodo addTodo={addTodo} />
+          {err && <Message error header={err.message} />}
         </Segment>
       </Grid.Column>
     </Grid>
