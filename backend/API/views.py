@@ -30,8 +30,16 @@ class TodoDetail(APIView):
     
     def get(self, requset, pk, format='json'):
         todo = self.get_object(pk)
-        serializers = TodoSerializer(todo)
-        return Response(serializers.data)
+        serializer = TodoSerializer(todo)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format='json'):
+        todo = self.get_object(pk)
+        serializer = TodoSerializer(todo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, fromat="json"):
         todo = self.get_object(pk)

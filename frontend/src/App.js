@@ -38,8 +38,8 @@ function App() {
   function completeTodo(todo, index) {
     const newTodos = [...todos];
     newTodos[index].complete = !newTodos[index].complete;
-    /*In order not to pass the title field in the put method, 
-    you need to change the model fields in django*/
+    /* In order not to pass the title field in the put method, 
+    you need to change the model fields in django */
     axios
       .put(url + todo.id + "/", {
         title: todo.title,
@@ -48,6 +48,7 @@ function App() {
       .then((response) => {
         console.log(response.data);
         setTodos(newTodos);
+        setError(false);
       })
       .catch((error) => setError(error));
   }
@@ -60,6 +61,7 @@ function App() {
       .then((response) => {
         console.log(response.data);
         setTodos(newTodos);
+        setError(false);
       })
       .catch((error) => setError(error));
   }
@@ -71,6 +73,7 @@ function App() {
       .then((response) => {
         console.log(response.data);
         setTodos(newTodos);
+        setError(false);
         getTodos();
       })
       .catch((error) => setError(error));
