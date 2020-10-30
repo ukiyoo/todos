@@ -1,1 +1,5 @@
-![Alt Text](https://media.giphy.com/media/lZBayA7GA6l17I9jPr/giphy.gif)
+# React + Django Todo App
+Simple todos app using react, django and docker
+<p align="center">
+  <img src="https://media.giphy.com/media/lZBayA7GA6l17I9jPr/giphy.gif">
+</p>
